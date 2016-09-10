@@ -1,27 +1,36 @@
 var canvas = document.querySelector("#playground");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-var MAX_PARTICLES = 300;
+var MAX_PARTICLES = 1000;
 
 
 var ctx = canvas.getContext('2d');
 
 var particles = [];
 
-var create = function() {
+var create = function(options) {
+
+	options = options || {
+		x: Math.random() * canvas.width,
+		y: Math.random() * canvas.height
+	};
+
 	if(particles.length > MAX_PARTICLES){
 		particles.shift();
 	}
+
 	var red = Math.floor(Math.random() * 255);
 	var green = Math.floor(Math.random() * 255);
 	var blue = Math.floor(Math.random() * 255);
+	var alpha = Math.random();
+
 	var dot = {
-		x: Math.random() * canvas.width,
-		y: Math.random() * canvas.height,
+		x: options.x,
+		y: options.y,
 		xVel: (Math.random() - 0.5),
 		yVel: (Math.random() - 0.5),
-		radius: 15,
-		color: "rgb(" + red + "," + green + "," + blue + ")"
+		radius: Math.random() * 20,
+		color: "rgba(" + red + ", " + green + ", " + blue + ", " + alpha + ")"
 	};
 
 	particles.push(dot);
@@ -39,7 +48,7 @@ var draw = function() {
 
 var fade = function() {
 	particles.forEach(function (dot) {
-		dot.radius += 0.99;
+		dot.radius += 0.01;
 	});
 };
 
@@ -57,5 +66,14 @@ var loop = function() {
 	draw();
 	window.requestAnimationFrame(loop);
 };
+
+canvas.addEventListener("click", function(ev) {
+	for(var i = 0; i < 150; i++){
+		create({
+			x: ev.clientX,
+			y: ev.clientY
+		});
+	}
+}, false);
 
 loop();
