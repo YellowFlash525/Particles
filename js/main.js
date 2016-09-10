@@ -1,7 +1,7 @@
 var canvas = document.querySelector("#playground");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-var MAX_PARTICLES = 500;
+var MAX_PARTICLES = 300;
 
 
 var ctx = canvas.getContext('2d');
@@ -12,13 +12,16 @@ var create = function() {
 	if(particles.length > MAX_PARTICLES){
 		particles.shift();
 	}
+	var red = Math.floor(Math.random() * 255);
+	var green = Math.floor(Math.random() * 255);
+	var blue = Math.floor(Math.random() * 255);
 	var dot = {
 		x: Math.random() * canvas.width,
 		y: Math.random() * canvas.height,
 		xVel: (Math.random() - 0.5),
 		yVel: (Math.random() - 0.5),
 		radius: 15,
-		color: "rgb(20, 180, 210)"
+		color: "rgb(" + red + "," + green + "," + blue + ")"
 	};
 
 	particles.push(dot);
